@@ -1,7 +1,7 @@
-const connectDB = require("../db");
-const User = require("../User");
+import connectDB from "../db.js";
+import User from "../User.js";
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   await connectDB();
 
   if (req.method === "POST") {
@@ -26,4 +26,4 @@ module.exports = async (req, res) => {
 
   res.setHeader("Allow", ["GET", "POST"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
-};
+}

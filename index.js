@@ -1,8 +1,9 @@
-require("dotenv").config();
-const express = require("express");
-const connectDB = require("./db");
-const User = require("./User"); // ← corregido
+import dotenv from "dotenv";
+import express from "express";
+import connectDB from "./db.js";
+import User from "./User.js";
 
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -14,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("Servidor conectado a MongoDB 🚀");
 });
 
-// Crear usuario (POST)
+// Crear usuario
 app.post("/users", async (req, res) => {
   try {
     const { name, email } = req.body;
@@ -26,22 +27,11 @@ app.post("/users", async (req, res) => {
   }
 });
 
-// Ver todos los usuarios (GET)
+// Ver usuarios
 app.get("/users", async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Ver un usuario por ID (GET)
-app.get("/users/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
-    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
